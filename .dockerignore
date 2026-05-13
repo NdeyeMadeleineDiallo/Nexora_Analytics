@@ -1,0 +1,15 @@
+.venv/
+.git/
+__pycache__/
+.ipynb_checkpoints/
+.vscode/
+
+data/raw/
+data/processed/
+models/
+
+*.pyc
+*.pkl
+*.joblib
+*.csv
+*.ipynb_checkpoints
