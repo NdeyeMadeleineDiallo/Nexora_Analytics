@@ -1,0 +1,18 @@
+{
+    "version": "v1.0",
+    "date_creation": "2026-05-13 20:36:23",
+    "raw_datasets": {
+        "fraude": "../data/raw/detection_fraude.csv",
+        "clustering": "../data/raw/data_cluster.csv"
+    },
+    "processed_datasets": {
+        "fraud_clean": "../data/processed/fraud_clean.csv",
+        "cluster_clean": "../data/processed/cluster_clean.csv",
+        "X_resampled": "../data/processed/X_resampled.csv",
+        "y_resampled": "../data/processed/y_resampled.csv",
+        "cluster_scaled": "../data/processed/cluster_scaled.csv",
+        "cluster_pca": "../data/processed/cluster_pca.csv",
+        "client_segments_final": "../data/processed/client_segments_final.csv"
+    },
+    "description": "Version initiale des données utilisées pour la détection de fraude et la segmentation client."
+}

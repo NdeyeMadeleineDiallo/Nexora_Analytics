@@ -1,0 +1,40 @@
+{
+    "fraud_detection": {
+        "problem_type": "classification supervisée",
+        "target": "isFraud",
+        "models_tested": [
+            "LogisticRegression",
+            "RandomForestClassifier",
+            "XGBClassifier",
+            "LGBMClassifier",
+            "MLPClassifier"
+        ],
+        "resampling": "SMOTE",
+        "test_size": 0.2,
+        "random_state": 42,
+        "main_metrics": [
+            "Accuracy",
+            "Precision",
+            "Recall",
+            "F1-Score",
+            "ROC-AUC"
+        ]
+    },
+    "customer_segmentation": {
+        "problem_type": "clustering non supervisé",
+        "models_tested": [
+            "KMeans",
+            "DBSCAN",
+            "AgglomerativeClustering",
+            "GaussianMixture"
+        ],
+        "selected_number_of_clusters": 5,
+        "selection_method": "Elbow Method",
+        "scaling": "StandardScaler",
+        "dimensionality_reduction": "PCA",
+        "main_metrics": [
+            "Silhouette Score",
+            "Davies-Bouldin Score"
+        ]
+    }
+}

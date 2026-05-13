@@ -1,0 +1,16 @@
+{
+    "version": "v1.0",
+    "date_creation": "2026-05-13 20:36:23",
+    "models": {
+        "fraud_detection_best_model": {
+            "file": "../models/fraud_best_model_v1.pkl",
+            "description": "Modèle final retenu pour la détection de fraude bancaire.",
+            "status": "à sauvegarder après sélection du meilleur modèle"
+        },
+        "customer_segmentation_model": {
+            "file": "../models/kmeans_customer_segmentation_v1.pkl",
+            "description": "Modèle KMeans utilisé pour segmenter les clients en 5 groupes.",
+            "status": "à sauvegarder après entraînement final"
+        }
+    }
+}
