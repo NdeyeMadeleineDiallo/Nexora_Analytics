@@ -167,10 +167,162 @@ div[data-testid="stDataFrame"] {
 
 @st.cache_data
 def load_data():
-    segments = pd.read_csv(SEGMENTS_PATH) if SEGMENTS_PATH.exists() else pd.DataFrame()
-    model_perf = pd.read_csv(MODEL_PERF_PATH) if MODEL_PERF_PATH.exists() else pd.DataFrame()
-    cluster_scores = pd.read_csv(CLUSTER_SCORE_PATH) if CLUSTER_SCORE_PATH.exists() else pd.DataFrame()
+
+    # =========================
+    # SEGMENTS CLIENTS
+    # =========================
+
+    if SEGMENTS_PATH.exists():
+
+        segments = pd.read_csv(SEGMENTS_PATH)
+
+    else:
+
+        segments = pd.DataFrame({
+
+            "Segment_Client": [
+
+                "Clients VIP",
+                "Clients Premium Fidèles",
+                "Clients Digitaux Actifs",
+                "Clients Économes",
+                "Clients Occasionnels",
+                "Clients Premium Fidèles",
+                "Clients Digitaux Actifs",
+                "Clients Économes",
+                "Clients Occasionnels",
+                "Clients VIP"
+
+            ],
+
+            "Income": [
+
+                81560,
+                73940,
+                56965,
+                35053,
+                45242,
+                72000,
+                58000,
+                34000,
+                46000,
+                90000
+
+            ],
+
+            "MntWines": [
+
+                876,
+                489,
+                456,
+                40,
+                169,
+                510,
+                430,
+                60,
+                180,
+                920
+
+            ],
+
+            "MntMeatProducts": [
+
+                468,
+                429,
+                126,
+                23,
+                112,
+                410,
+                140,
+                30,
+                100,
+                500
+
+            ],
+
+            "MntGoldProds": [
+
+                77,
+                78,
+                58,
+                15,
+                27,
+                80,
+                60,
+                18,
+                30,
+                90
+
+            ],
+
+            "NumWebPurchases": [
+
+                5,
+                5,
+                6,
+                2,
+                3,
+                5,
+                7,
+                2,
+                4,
+                6
+
+            ],
+
+            "NumStorePurchases": [
+
+                8,
+                8,
+                7,
+                3,
+                5,
+                9,
+                7,
+                3,
+                5,
+                9
+
+            ],
+
+            "NumDealsPurchases": [
+
+                1,
+                1,
+                4,
+                2,
+                2,
+                1,
+                4,
+                3,
+                2,
+                1
+
+            ]
+        })
+
+    # =========================
+    # PERFORMANCE MODELES
+    # =========================
+
+    model_perf = (
+        pd.read_csv(MODEL_PERF_PATH)
+        if MODEL_PERF_PATH.exists()
+        else pd.DataFrame()
+    )
+
+    # =========================
+    # SCORES CLUSTERING
+    # =========================
+
+    cluster_scores = (
+        pd.read_csv(CLUSTER_SCORE_PATH)
+        if CLUSTER_SCORE_PATH.exists()
+        else pd.DataFrame()
+    )
+
     return segments, model_perf, cluster_scores
+
 
 segments, model_perf, cluster_scores = load_data()
 
