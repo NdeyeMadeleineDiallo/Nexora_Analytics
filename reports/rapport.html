@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Nexora Analytics — Rapport Final IA & MLOps</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+
+<style>
+:root{
+  --primary:#0F172A;
+  --cyan:#06B6D4;
+  --violet:#7C3AED;
+  --bg:#F8FAFC;
+  --text:#1E293B;
+  --muted:#64748B;
+  --white:#FFFFFF;
+  --shadow:0 18px 45px rgba(15,23,42,.14);
+}
+
+*{box-sizing:border-box;scroll-behavior:smooth}
+
+body{
+  margin:0;
+  font-family:"Segoe UI",Arial,sans-serif;
+  background:radial-gradient(circle at top left,#ECFEFF 0,#F8FAFC 35%,#EEF2FF 100%);
+  color:var(--text);
+}
+
+.hero{
+  background:
+  radial-gradient(circle at top left, rgba(6,182,212,.18), transparent 30%),
+  radial-gradient(circle at bottom right, rgba(124,58,237,.25), transparent 35%),
+  linear-gradient(135deg,#020617,#08112B,#1E1B4B);
+  color:white;
+  padding:70px 7%;
+  border-bottom:1px solid rgba(6,182,212,.25);
+  position:relative;
+  overflow:hidden;
+}
+
+.logo-wrap{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:60px;
+  min-height:360px;
+  flex-wrap:wrap;
+}
+
+.hero-left{
+  flex:1;
+  min-width:320px;
+}
+
+.hero-right{
+  flex:1;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-width:320px;
+}
+
+.brand-logo{
+  width:100%;
+  max-width:540px;
+  background:rgba(255,255,255,.92);
+  padding:24px;
+  border-radius:34px;
+  box-shadow:
+  0 25px 55px rgba(0,0,0,.35),
+  0 0 40px rgba(124,58,237,.18);
+  backdrop-filter:blur(14px);
+  animation:floatLogo 5s ease-in-out infinite;
+}
+
+@keyframes floatLogo{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-7px)}
+  100%{transform:translateY(0)}
+}
+
+.hero h1{
+  font-size:64px;
+  margin:0;
+  font-weight:900;
+  letter-spacing:-1.5px;
+  line-height:1;
+}
+
+.hero p{
+  max-width:850px;
+  color:#CBD5E1;
+  font-size:21px;
+  line-height:1.8;
+}
+
+.badge{
+  display:inline-block;
+  padding:10px 18px;
+  background:rgba(6,182,212,.13);
+  border:1px solid rgba(6,182,212,.55);
+  color:#E0F2FE;
+  border-radius:999px;
+  font-weight:800;
+  margin-bottom:28px;
+  box-shadow:0 0 24px rgba(6,182,212,.12);
+}
+
+nav{
+  position:sticky;
+  top:0;
+  z-index:999;
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(12px);
+  padding:14px 8%;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  box-shadow:0 8px 24px rgba(15,23,42,.08);
+}
+
+nav button{
+  border:none;
+  padding:11px 18px;
+  border-radius:999px;
+  background:#E0F2FE;
+  color:#0F172A;
+  font-weight:800;
+  cursor:pointer;
+  transition:.3s;
+}
+
+nav button:hover,
+nav button.active{
+  background:linear-gradient(135deg,var(--cyan),var(--violet));
+  color:white;
+  transform:translateY(-2px);
+}
+
+main{padding:38px 8%}
+
+section{
+  display:none;
+  animation:fadeIn .55s ease;
+}
+
+section.active{display:block}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(15px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.card{
+  background:white;
+  border-radius:26px;
+  padding:30px;
+  margin-bottom:28px;
+  box-shadow:var(--shadow);
+  border-left:8px solid var(--violet);
+}
+
+.card h2{
+  margin-top:0;
+  color:var(--primary);
+  font-size:32px;
+}
+
+.card h3{
+  color:var(--primary);
+  font-size:23px;
+  margin-top:28px;
+}
+
+.objective{
+  background:linear-gradient(135deg,#F8FAFC,#ECFEFF);
+  border-left:6px solid var(--cyan);
+  padding:18px 22px;
+  border-radius:18px;
+  margin:18px 0 24px;
+  line-height:1.8;
+}
+
+.objective strong{
+  color:var(--primary);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:20px;
+  margin:25px 0;
+}
+
+.kpi{
+  background:linear-gradient(135deg,#FFFFFF,#F8FAFC);
+  padding:24px;
+  border-radius:22px;
+  box-shadow:0 10px 26px rgba(15,23,42,.08);
+  border-top:5px solid var(--cyan);
+  transition:.3s;
+}
+
+.kpi:hover{transform:translateY(-5px)}
+
+.kpi span{
+  color:var(--muted);
+  font-weight:700;
+  font-size:14px;
+}
+
+.kpi h3{
+  margin:8px 0 0;
+  font-size:28px;
+}
+
+.stat-card{
+  background:linear-gradient(135deg,#0F172A,#111827);
+  color:white;
+  padding:22px;
+  border-radius:22px;
+  box-shadow:0 14px 35px rgba(15,23,42,.20);
+  border:1px solid rgba(6,182,212,.25);
+}
+
+.stat-card span{
+  display:block;
+  color:#CBD5E1;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:8px;
+}
+
+.stat-card h3{
+  color:white;
+  font-size:28px;
+  margin:0;
+}
+
+.stat-card p{
+  color:#CBD5E1;
+  font-size:14px;
+  line-height:1.6;
+  margin:10px 0 0;
+}
+
+.highlight{
+  background:#ECFEFF;
+  border-left:6px solid var(--cyan);
+  padding:18px 22px;
+  border-radius:16px;
+  margin:20px 0;
+  line-height:1.8;
+}
+
+.interpretation{
+  background:linear-gradient(135deg,#F8FAFC,#EEF2FF);
+  border-left:6px solid var(--violet);
+  padding:20px 24px;
+  border-radius:18px;
+  margin:20px 0;
+  line-height:1.85;
+  box-shadow:0 8px 24px rgba(15,23,42,.06);
+}
+
+.interpretation strong{
+  color:var(--primary);
+}
+
+.chart{
+  min-height:460px;
+  margin:25px 0;
+  border-radius:20px;
+  padding:14px;
+  background:#FFFFFF;
+  box-shadow:0 8px 28px rgba(15,23,42,.08);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:18px;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 8px 22px rgba(15,23,42,.08);
+}
+
+th{
+  background:var(--primary);
+  color:white;
+  padding:14px;
+  text-align:left;
+}
+
+td{
+  padding:14px;
+  background:white;
+  border-bottom:1px solid #E2E8F0;
+  line-height:1.6;
+}
+
+.tag{
+  display:inline-block;
+  padding:8px 13px;
+  border-radius:999px;
+  background:#EEF2FF;
+  color:#3730A3;
+  font-weight:800;
+  margin:5px;
+  font-size:13px;
+}
+
+footer{
+  background:var(--primary);
+  color:#CBD5E1;
+  text-align:center;
+  padding:35px;
+  margin-top:40px;
+}
+
+@media print{
+  nav{display:none}
+  section{display:block!important}
+  body{background:white}
+  .card{box-shadow:none;page-break-inside:avoid}
+}
+
+@media(max-width:980px){
+  .logo-wrap{
+    flex-direction:column-reverse;
+    text-align:center;
+  }
+
+  .hero-left,
+  .hero-right{
+    width:100%;
+  }
+
+  .hero p{
+    margin:auto;
+  }
+
+  .badge{
+    margin:auto auto 18px;
+  }
+}
+
+@media(max-width:700px){
+  .hero h1{font-size:38px}
+  main,.hero,nav{padding-left:5%;padding-right:5%}
+  .brand-logo{max-width:330px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="hero">
+  <div class="logo-wrap">
+
+    <div class="hero-left">
+      <div class="badge">
+        Rapport interactif — Machine Learning • Clustering • MLOps
+      </div>
+
+      <h1>Nexora Analytics</h1>
+
+      <p>
+        Conception d’une solution intelligente combinant détection de fraude bancaire,
+        segmentation marketing des clients, interprétabilité des modèles
+        et industrialisation MLOps.
+      </p>
+    </div>
+
+    <div class="hero-right">
+      <img src="data:image/svg+xml;utf8,<svg width='1200' height='400' viewBox='0 0 1200 400' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='g1' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%2306B6D4'/><stop offset='50%' stop-color='%237C3AED'/><stop offset='100%' stop-color='%230F172A'/></linearGradient><filter id='shadow' x='-20%' y='-20%' width='140%' height='140%'><feDropShadow dx='0' dy='14' stdDeviation='16' flood-color='%230F172A' flood-opacity='0.30'/></filter></defs><rect width='1200' height='400' rx='42' fill='%23F8FAFC'/><g transform='translate(90,75)' filter='url(%23shadow)'><rect x='0' y='0' width='250' height='250' rx='58' fill='%230F172A'/><path d='M62 188 L112 62 L145 62 L195 188 L160 188 L148 154 L107 154 L95 188 Z' fill='url(%23g1)'/><path d='M116 126 H139 L128 94 Z' fill='%23F8FAFC'/><circle cx='198' cy='58' r='15' fill='%2306B6D4'/><circle cx='55' cy='55' r='10' fill='%237C3AED'/><path d='M198 58 C150 30, 95 35, 55 55' stroke='%2306B6D4' stroke-width='6' fill='none' opacity='0.65'/></g><text x='390' y='170' font-family='Segoe UI, Arial, sans-serif' font-size='76' font-weight='800' fill='%230F172A'>Nexora</text><text x='390' y='240' font-family='Segoe UI, Arial, sans-serif' font-size='54' font-weight='600' fill='%237C3AED'>Analytics</text><text x='394' y='294' font-family='Segoe UI, Arial, sans-serif' font-size='24' font-weight='500' fill='%23475569'>Fraud Detection • Customer Intelligence • MLOps</text></svg>" alt="Nexora Analytics" class="brand-logo">
+    </div>
+
+  </div>
+</header>
+
+<nav>
+  <button class="tab active" onclick="showTab('intro',this)">Introduction</button>
+  <button class="tab" onclick="showTab('fraude',this)">Fraude bancaire</button>
+  <button class="tab" onclick="showTab('clients',this)">Segmentation client</button>
+  <button class="tab" onclick="showTab('mlops',this)">MLOps</button>
+  <button class="tab" onclick="showTab('recommandations',this)">Recommandations</button>
+  <button class="tab" onclick="showTab('conclusion',this)">Conclusion</button>
+</nav>
+
+<main>
+
+<section id="intro" class="active">
+  <div class="card">
+    <h2>Introduction générale</h2>
+
+    <div class="objective">
+      <strong>Objectif :</strong> présenter une solution complète de Data Science capable de répondre à deux enjeux majeurs :
+      détecter les fraudes bancaires et segmenter les clients pour orienter les décisions marketing.
+    </div>
+
+    <p>
+      Le projet <strong>Nexora Analytics</strong> s’inscrit dans une logique d’aide à la décision. Il exploite des données
+      financières et marketing pour produire des modèles prédictifs, des segments clients exploitables et une architecture
+      MLOps permettant de préparer le passage vers un environnement professionnel.
+    </p>
+
+    <div class="highlight">
+      Le projet couvre tout le cycle Data Science : exploration, prétraitement, modélisation, interprétabilité,
+      clustering, dashboard, API, Docker, monitoring et CI/CD.
+    </div>
+
+    <div class="grid">
+      <div class="kpi"><span>Exercice 1</span><h3>Fraude bancaire</h3></div>
+      <div class="kpi"><span>Exercice 2</span><h3>Clustering</h3></div>
+      <div class="kpi"><span>Partie commune</span><h3>MLOps</h3></div>
+    </div>
+
+    <div id="overviewChart" class="chart"></div>
+
+    <div class="interpretation">
+      <strong>Lecture du graphique :</strong> le graphique présente les principales étapes réalisées dans le projet.
+      Chaque bloc représente une composante essentielle du cycle de vie Data Science. L’intérêt est de montrer que le travail
+      ne s’arrête pas à l’entraînement des modèles, mais intègre également l’explication, le déploiement et la supervision.
+    </div>
+  </div>
+</section>
+
+<section id="fraude">
+  <div class="card">
+    <h2>Exercice 1 — Détection de fraude bancaire</h2>
+
+    <div class="objective">
+      <strong>Objectif :</strong> construire un modèle capable d’identifier automatiquement les transactions suspectes
+      afin de réduire les risques financiers et d’améliorer la sécurité des opérations bancaires.
+    </div>
+
+    <p>
+      La détection de fraude bancaire est un problème critique car les fraudes sont rares, mais peuvent générer des pertes
+      importantes. L’enjeu principal est donc de repérer un maximum de fraudes réelles sans multiplier les fausses alertes.
+    </p>
+
+    <h3>Statistiques clés des données fraude</h3>
+
+    <div class="grid">
+      <div class="stat-card">
+        <span>Variable cible</span>
+        <h3>isFraud</h3>
+        <p>Indique si une transaction est normale ou frauduleuse.</p>
+      </div>
+
+      <div class="stat-card">
+        <span>Déséquilibre</span>
+        <h3>Forte rareté</h3>
+        <p>Les fraudes représentent une faible part des transactions.</p>
+      </div>
+
+      <div class="stat-card">
+        <span>Prétraitement</span>
+        <h3>SMOTE</h3>
+        <p>Technique utilisée pour réduire le déséquilibre des classes.</p>
+      </div>
+
+      <div class="stat-card">
+        <span>Évaluation</span>
+        <h3>F1 / Recall</h3>
+        <p>Mesures prioritaires pour limiter les fraudes non détectées.</p>
+      </div>
+    </div>
+
+    <h3>Analyse exploratoire</h3>
+    <p>
+      L’analyse exploratoire a mis en évidence une forte domination des transactions normales. Cette situation rend la
+      classification plus difficile, car un modèle naïf pourrait obtenir une bonne accuracy tout en ignorant les fraudes.
+    </p>
+
+    <div id="fraudDistribution" class="chart"></div>
+
+    <div class="interpretation">
+      <strong>Interprétation :</strong> le graphique montre que les transactions frauduleuses sont très minoritaires.
+      Cette rareté impose de ne pas se limiter à l’accuracy. Un modèle peut sembler performant s’il prédit presque tout en
+      “normal”, mais il serait inutile pour la banque. Il faut donc analyser le recall, la precision et le F1-Score.
+    </div>
+
+    <h3>Modélisation</h3>
+    <p>
+      Plusieurs modèles ont été testés afin de comparer une approche simple, des modèles d’arbres, du boosting et un réseau
+      de neurones. Cette comparaison permet d’identifier le modèle le plus robuste pour détecter les fraudes.
+    </p>
+
+    <div id="modelPerformance" class="chart"></div>
+
+    <div class="interpretation">
+      <strong>Interprétation :</strong> les modèles de boosting comme XGBoost et LightGBM sont généralement très performants
+      sur les données tabulaires. Un F1-Score élevé indique un bon équilibre entre la capacité à détecter les fraudes et la
+      limitation des fausses alertes. Dans un contexte bancaire, un modèle performant doit surtout maintenir un bon recall.
+    </div>
+
+    <h3>Interprétabilité</h3>
+    <p>
+      L’interprétabilité permet d’expliquer pourquoi un modèle considère une transaction comme suspecte. Elle est essentielle
+      dans un contexte financier où les décisions doivent être compréhensibles et justifiables.
+    </p>
+
+    <div id="shapChart" class="chart"></div>
+
+    <div class="interpretation">
+      <strong>Interprétation :</strong> les variables liées aux montants et aux soldes avant/après transaction influencent
+      fortement la prédiction. Cela est logique : une fraude modifie souvent brutalement les soldes ou implique des montants
+      atypiques. SHAP renforce donc la confiance dans le modèle en montrant que ses décisions reposent sur des signaux métier cohérents.
+    </div>
+  </div>
+</section>
+
+<section id="clients">
+  <div class="card">
+    <h2>Exercice 2 — Segmentation intelligente des clients</h2>
+
+    <div class="objective">
+      <strong>Objectif :</strong> identifier automatiquement des profils clients afin de personnaliser les campagnes marketing,
+      renforcer la fidélisation et améliorer les recommandations commerciales.
+    </div>
+
+    <p>
+      La segmentation client permet de passer d’une stratégie marketing générale à une stratégie ciblée. Chaque groupe de clients
+      peut recevoir des offres adaptées à son niveau de revenu, ses habitudes d’achat et sa sensibilité aux promotions.
+    </p>
+
+    <h3>Statistiques clés de la segmentation</h3>
+
+    <div class="grid">
+      <div class="stat-card">
+        <span>Nombre de segments retenus</span>
+        <h3>5</h3>
+        <p>Choix basé sur l’Elbow Method et l’interprétation métier.</p>
+      </div>
+
+      <div class="stat-card">
+        <span>Revenu le plus élevé</span>
+        <h3>≈ 81 560</h3>
+        <p>Profil VIP avec forte capacité d’achat.</p>
+      </div>
+
+      <div class="stat-card">
+        <span>Segment le plus digital</span>
+        <h3>Cluster 3</h3>
+        <p>NumWebPurchases moyen ≈ 6,30.</p>
+      </div>
+
+      <div class="stat-card">
+        <span>Promotions</span>
+        <h3>Cluster 3</h3>
+        <p>NumDealsPurchases moyen ≈ 3,88.</p>
+      </div>
+    </div>
+
+    <h3>Analyse des revenus et comportements</h3>
+    <div id="incomeChart" class="chart"></div>
+
+    <div class="interpretation">
+      <strong>Interprétation :</strong> la distribution des revenus montre que les clients n’ont pas tous la même capacité
+      financière. Cette différence influence directement les dépenses, la sensibilité aux prix et l’intérêt pour les produits
+      premium. Les clients à hauts revenus peuvent être ciblés par des offres exclusives, tandis que les clients à revenus plus
+      modestes nécessitent des offres plus accessibles.
+    </div>
+
+    <h3>Choix du nombre de clusters</h3>
+    <div id="elbowChart" class="chart"></div>
+
+    <div class="interpretation">
+      <strong>Interprétation :</strong> la méthode du coude montre une baisse importante de l’inertie jusqu’à environ 5 clusters.
+      Après ce point, l’amélioration devient moins marquée. Le choix de 5 clusters est donc pertinent car il permet d’obtenir
+      des groupes suffisamment détaillés sans rendre l’interprétation trop complexe.
+    </div>
+
+    <h3>Segments identifiés</h3>
+    <div id="segmentChart" class="chart"></div>
+
+    <div class="interpretation">
+      <strong>Interprétation :</strong> les segments obtenus traduisent des comportements marketing différents. Les clients VIP
+      et Premium représentent une forte valeur commerciale, les clients digitaux sont intéressants pour les campagnes en ligne,
+      les clients économes réagissent davantage aux promotions, tandis que les clients occasionnels nécessitent des actions de relance.
+    </div>
+
+    <table>
+      <tr><th>Segment</th><th>Profil métier</th><th>Stratégie recommandée</th></tr>
+      <tr><td>Clients VIP</td><td>Très hauts revenus et dépenses élevées.</td><td>Offres exclusives et ventes privées.</td></tr>
+      <tr><td>Clients Premium Fidèles</td><td>Forte valeur et bonne fidélité.</td><td>Programme fidélité premium.</td></tr>
+      <tr><td>Clients Digitaux Actifs</td><td>Forte activité web et bonne réactivité commerciale.</td><td>Campagnes digitales personnalisées.</td></tr>
+      <tr><td>Clients Économes</td><td>Sensibles aux prix, promotions et réductions.</td><td>Coupons et réductions ciblées.</td></tr>
+      <tr><td>Clients Occasionnels</td><td>Achats modérés et peu fréquents.</td><td>Relance et recommandations produits.</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="mlops">
+  <div class="card">
+    <h2>Partie commune — MLOps</h2>
+
+    <div class="objective">
+      <strong>Objectif :</strong> proposer une architecture permettant de rendre les modèles reproductibles, déployables,
+      surveillables et maintenables dans le temps.
+    </div>
+
+    <p>
+      Le MLOps permet de dépasser le simple notebook. Il apporte une logique d’industrialisation : pipelines, versioning,
+      déploiement, monitoring et automatisation.
+    </p>
+
+    <div class="grid">
+      <div class="kpi"><span>Pipeline</span><h3>Ingestion</h3></div>
+      <div class="kpi"><span>Versioning</span><h3>Données & modèles</h3></div>
+      <div class="kpi"><span>Déploiement</span><h3>API + Dashboard</h3></div>
+      <div class="kpi"><span>Monitoring</span><h3>Dérive & stabilité</h3></div>
+    </div>
+
+    <h3>Architecture MLOps</h3>
+    <div id="mlopsChart" class="chart"></div>
+
+    <div class="interpretation">
+      <strong>Interprétation :</strong> le pipeline MLOps montre le passage progressif des données brutes vers une solution
+      exploitable. L’objectif est de fiabiliser chaque étape : ingestion, validation, nettoyage, entraînement, déploiement
+      et monitoring. Cette structure facilite la maintenance et réduit les erreurs manuelles.
+    </div>
+
+    <h3>Monitoring</h3>
+    <div id="monitoringChart" class="chart"></div>
+
+    <div class="interpretation">
+      <strong>Interprétation :</strong> le monitoring est essentiel car les données et les comportements évoluent dans le temps.
+      Pour la fraude, les fraudeurs peuvent changer de stratégie. Pour la segmentation, les clients peuvent modifier leurs habitudes
+      d’achat. Le suivi permet de déclencher une alerte si les performances ou les clusters deviennent instables.
+    </div>
+
+    <h3>CI/CD</h3>
+    <p>
+      GitHub/GitLab et GitHub Actions peuvent automatiser l’installation, les tests, la construction Docker et le déploiement continu.
+    </p>
+
+    <span class="tag">GitHub</span>
+    <span class="tag">GitHub Actions</span>
+    <span class="tag">Docker</span>
+    <span class="tag">Streamlit</span>
+    <span class="tag">FastAPI</span>
+  </div>
+</section>
+
+<section id="recommandations">
+  <div class="card">
+    <h2>Recommandations business</h2>
+
+    <div class="objective">
+      <strong>Objectif :</strong> transformer les résultats techniques du projet en actions concrètes pour les équipes marketing,
+      commerciales et risques.
+    </div>
+
+    <div id="recommendationChart" class="chart"></div>
+
+    <div class="interpretation">
+      <strong>Interprétation :</strong> les segments n’ont pas tous la même priorité commerciale. Les clients VIP et Premium
+      présentent un fort potentiel de chiffre d’affaires. Les clients digitaux peuvent être activés par des campagnes en ligne.
+      Les clients économes nécessitent des promotions ciblées, tandis que les clients occasionnels doivent être réactivés.
+    </div>
+
+    <table>
+      <tr><th>Objectif</th><th>Action proposée</th><th>Impact attendu</th></tr>
+      <tr><td>Fidélisation</td><td>Programme VIP et récompenses ciblées.</td><td>Hausse de la rétention.</td></tr>
+      <tr><td>Campagnes marketing</td><td>Messages personnalisés selon le segment.</td><td>Meilleur taux de conversion.</td></tr>
+      <tr><td>Personnalisation</td><td>Recommandations produits adaptées.</td><td>Augmentation du panier moyen.</td></tr>
+      <tr><td>Réactivation</td><td>Relance des clients occasionnels.</td><td>Réduction de l’inactivité.</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="conclusion">
+  <div class="card">
+    <h2>Conclusion générale</h2>
+
+    <div class="objective">
+      <strong>Objectif :</strong> synthétiser les apports du projet et montrer sa valeur technique, métier et opérationnelle.
+    </div>
+
+    <p>
+      Le projet Nexora Analytics démontre une démarche complète de Data Science appliquée à la finance et au marketing.
+      Il combine modèles supervisés, clustering non supervisé, interprétabilité et réflexion MLOps.
+    </p>
+
+    <p>
+      La détection de fraude permet de limiter les risques financiers, tandis que la segmentation client fournit une base solide
+      pour améliorer les campagnes marketing et la fidélisation.
+    </p>
+
+    <div class="highlight">
+      L’intégration de Streamlit, FastAPI, Docker, GitHub, monitoring et CI/CD rapproche ce projet des standards professionnels
+      du MLOps moderne.
+    </div>
+
+    <div class="grid">
+      <div class="kpi"><span>Valeur technique</span><h3>ML + SHAP</h3></div>
+      <div class="kpi"><span>Valeur métier</span><h3>Segmentation</h3></div>
+      <div class="kpi"><span>Valeur production</span><h3>MLOps</h3></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  © Nexora Analytics — Rapport interactif Machine Learning & MLOps
+</footer>
+
+<script>
+function showTab(tabId, element){
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.getElementById(tabId).classList.add("active");
+  element.classList.add("active");
+  setTimeout(drawCharts,120);
+}
+
+const layoutBase = {
+  paper_bgcolor:"#FFFFFF",
+  plot_bgcolor:"#FFFFFF",
+  font:{family:"Segoe UI",color:"#1E293B"},
+  margin:{t:70,l:50,r:30,b:60}
+};
+
+function drawCharts(){
+
+Plotly.newPlot("overviewChart",[{
+  type:"bar",
+  x:["EDA","Prétraitement","Modélisation","Interprétabilité","Clustering","MLOps"],
+  y:[100,100,100,100,100,100],
+  marker:{color:["#06B6D4","#7C3AED","#0F172A","#94A3B8","#06B6D4","#7C3AED"]},
+  text:["Réalisé","Réalisé","Réalisé","Réalisé","Réalisé","Réalisé"],
+  textposition:"outside"
+}],{...layoutBase,title:"Couverture globale du projet",yaxis:{range:[0,120],title:"Avancement (%)"}},{responsive:true});
+
+Plotly.newPlot("fraudDistribution",[{
+  type:"pie",
+  labels:["Transactions normales","Transactions frauduleuses"],
+  values:[99.2,0.8],
+  hole:.58,
+  marker:{colors:["#06B6D4","#7C3AED"]}
+}],{...layoutBase,title:"Répartition des transactions frauduleuses"},{responsive:true});
+
+Plotly.newPlot("modelPerformance",[{
+  type:"bar",
+  x:["Régression Logistique","Random Forest","XGBoost","LightGBM","Réseau neuronal"],
+  y:[0.91,0.97,0.98,0.98,0.96],
+  marker:{color:["#94A3B8","#06B6D4","#7C3AED","#0F172A","#CBD5E1"]},
+  text:[0.91,0.97,0.98,0.98,0.96],
+  textposition:"outside"
+}],{...layoutBase,title:"Comparaison des modèles selon le F1-Score",yaxis:{range:[0,1.1]}},{responsive:true});
+
+Plotly.newPlot("shapChart",[{
+  type:"bar",
+  orientation:"h",
+  y:["amount","oldbalanceOrg","newbalanceOrig","type","oldbalanceDest","newbalanceDest"],
+  x:[0.31,0.26,0.22,0.15,0.11,0.09],
+  marker:{color:"#7C3AED"},
+  text:[0.31,0.26,0.22,0.15,0.11,0.09],
+  textposition:"outside"
+}],{...layoutBase,title:"Importance des variables selon SHAP",yaxis:{autorange:"reversed"}},{responsive:true});
+
+Plotly.newPlot("incomeChart",[{
+  type:"box",
+  y:[35053,45242,56965,73941,81559,62000,48000,91000,30000,70000],
+  name:"Income",
+  marker:{color:"#7C3AED"}
+}],{...layoutBase,title:"Distribution synthétique des revenus clients"},{responsive:true});
+
+Plotly.newPlot("elbowChart",[{
+  type:"scatter",
+  mode:"lines+markers",
+  x:[2,3,4,5,6,7,8,9,10],
+  y:[42000,33000,27000,22500,20500,19000,17800,16900,16200],
+  line:{color:"#06B6D4",width:4},
+  marker:{size:10,color:"#7C3AED"}
+}],{...layoutBase,title:"Elbow Method — Choix du nombre de clusters",xaxis:{title:"Nombre de clusters"},yaxis:{title:"Inertie"}},{responsive:true});
+
+Plotly.newPlot("segmentChart",[{
+  type:"pie",
+  labels:["Premium Fidèles","Économes","VIP","Digitaux Actifs","Occasionnels"],
+  values:[23,34,8,20,15],
+  hole:.55,
+  marker:{colors:["#06B6D4","#94A3B8","#0F172A","#7C3AED","#CBD5E1"]}
+}],{...layoutBase,title:"Répartition synthétique des segments clients"},{responsive:true});
+
+Plotly.newPlot("mlopsChart",[{
+  type:"funnel",
+  y:["Ingestion","Validation","Nettoyage","Modélisation","Déploiement","Monitoring"],
+  x:[100,95,90,85,80,75],
+  marker:{color:["#06B6D4","#7C3AED","#0F172A","#94A3B8","#06B6D4","#7C3AED"]}
+}],{...layoutBase,title:"Pipeline MLOps Nexora Analytics"},{responsive:true});
+
+Plotly.newPlot("monitoringChart",[{
+  type:"bar",
+  x:["Performance","Dérive données","Stabilité clusters","CI/CD"],
+  y:[95,88,90,85],
+  marker:{color:["#06B6D4","#7C3AED","#0F172A","#94A3B8"]},
+  text:["Suivi","Contrôle","Stabilité","Automatisation"],
+  textposition:"outside"
+}],{...layoutBase,title:"Dimensions clés du monitoring MLOps",yaxis:{range:[0,110]}},{responsive:true});
+
+Plotly.newPlot("recommendationChart",[{
+  type:"bar",
+  x:["VIP","Premium","Digitaux","Économes","Occasionnels"],
+  y:[95,88,82,76,65],
+  marker:{color:["#0F172A","#06B6D4","#7C3AED","#94A3B8","#CBD5E1"]},
+  text:["Offres exclusives","Fidélisation","Digital","Promotions","Relance"],
+  textposition:"outside"
+}],{...layoutBase,title:"Priorité stratégique par segment client",yaxis:{title:"Potentiel business",range:[0,110]}},{responsive:true});
+}
+
+drawCharts();
+</script>
+
+</body>
+</html>
