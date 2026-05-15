@@ -275,6 +275,10 @@ Le projet est compatible avec Render grâce au fichier :
 render.yaml
 ```
 
+Application disponible sur Render :
+
+https://TON-LIEN-RENDER.onrender.com
+
 ---
 
 # Résultats obtenus
