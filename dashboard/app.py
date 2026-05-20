@@ -158,6 +158,53 @@ div[data-testid="stDataFrame"] {
     padding: 12px 22px;
     font-weight: 800;
 }
+    /* Labels spécifiques Streamlit */
+[data-testid="stWidgetLabel"] p {
+    color: #0F172A !important;
+    font-weight: 800 !important;
+    font-size: 15px !important;
+}
+
+/* Texte aide / petits textes */
+[data-testid="stMarkdownContainer"] p {
+    color: #334155;
+}
+</style>
+""", unsafe_allow_html=True)
+st.markdown("""
+<style>
+
+/* =========================
+LABELS INPUTS STREAMLIT
+========================= */
+
+label {
+    color: #0F172A !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+}
+
+/* Texte dans les inputs */
+
+.stNumberInput input {
+    color: white !important;
+    font-weight: 700 !important;
+}
+
+/* Background des inputs */
+
+.stNumberInput div[data-baseweb="input"] {
+    background-color: #111827 !important;
+    border-radius: 14px !important;
+    border: 1px solid #334155 !important;
+}
+
+/* Boutons + et - */
+
+.stNumberInput button {
+    color: white !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
