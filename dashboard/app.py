@@ -24,10 +24,19 @@ LOGO_PATH = BASE_DIR / "dashboard" / "assets" / "nexora_logo.svg"
 
 st.markdown("""
 <style>
+
+/* =========================
+GLOBAL
+========================= */
+
 .stApp {
     background: linear-gradient(135deg, #F8FAFC 0%, #EEF2FF 45%, #ECFEFF 100%);
     font-family: Segoe UI, sans-serif;
 }
+
+/* =========================
+SIDEBAR
+========================= */
 
 [data-testid="stSidebar"] {
     background: linear-gradient(180deg, #020617 0%, #0F172A 55%, #1E1B4B 100%);
@@ -37,11 +46,16 @@ st.markdown("""
     color: white !important;
 }
 
+/* =========================
+HERO
+========================= */
+
 .hero {
     background:
     radial-gradient(circle at top left, rgba(6,182,212,.22), transparent 30%),
     radial-gradient(circle at bottom right, rgba(124,58,237,.25), transparent 35%),
     linear-gradient(135deg,#020617,#08112B,#1E1B4B);
+
     padding: 36px;
     border-radius: 28px;
     box-shadow: 0 20px 45px rgba(15,23,42,.20);
@@ -50,18 +64,22 @@ st.markdown("""
 }
 
 .hero h1 {
-    color: white;
+    color: white !important;
     font-size: 46px;
     font-weight: 900;
     margin: 0;
 }
 
 .hero p {
-    color: #CBD5E1;
+    color: #CBD5E1 !important;
     font-size: 18px;
     line-height: 1.7;
     max-width: 900px;
 }
+
+/* =========================
+BADGE
+========================= */
 
 .badge {
     display: inline-block;
@@ -73,6 +91,10 @@ st.markdown("""
     font-weight: 700;
     margin-bottom: 14px;
 }
+
+/* =========================
+SECTION TITLE
+========================= */
 
 .section-title {
     background: white;
@@ -95,6 +117,10 @@ st.markdown("""
     line-height: 1.6;
 }
 
+/* =========================
+METRIC CARDS
+========================= */
+
 .metric-card {
     background: white;
     padding: 22px;
@@ -115,6 +141,10 @@ st.markdown("""
     margin: 8px 0 0;
 }
 
+/* =========================
+INFO BOX
+========================= */
+
 .info-box {
     background: #ECFEFF;
     border-left: 6px solid #06B6D4;
@@ -124,6 +154,10 @@ st.markdown("""
     line-height: 1.75;
     margin: 18px 0;
 }
+
+/* =========================
+INTERPRETATION
+========================= */
 
 .interpretation {
     background: linear-gradient(135deg, #FFFFFF, #F8FAFC);
@@ -136,47 +170,50 @@ st.markdown("""
     margin: 18px 0;
 }
 
+/* =========================
+DATAFRAME
+========================= */
+
 div[data-testid="stDataFrame"] {
     border-radius: 16px;
     overflow: hidden;
 }
 
-.stButton>button {
+/* =========================
+BUTTONS
+========================= */
+
+.stButton > button {
     background: linear-gradient(135deg,#06B6D4,#7C3AED);
-    color: white;
+    color: white !important;
     border: none;
     border-radius: 999px;
     padding: 12px 22px;
     font-weight: 800;
 }
 
-.stDownloadButton>button {
+/* =========================
+DOWNLOAD BUTTON
+========================= */
+
+.stDownloadButton > button {
     background: linear-gradient(135deg,#0F172A,#7C3AED);
-    color: white;
+    color: white !important;
     border: none;
     border-radius: 999px;
     padding: 12px 22px;
     font-weight: 800;
 }
-    /* Labels spécifiques Streamlit */
+
+/* =========================
+LABELS INPUTS
+========================= */
+
 [data-testid="stWidgetLabel"] p {
     color: #0F172A !important;
     font-weight: 800 !important;
     font-size: 15px !important;
 }
-
-/* Texte aide / petits textes */
-[data-testid="stMarkdownContainer"] p {
-    color: #334155;
-}
-</style>
-""", unsafe_allow_html=True)
-st.markdown("""
-<style>
-
-/* =========================
-LABELS INPUTS STREAMLIT
-========================= */
 
 label {
     color: #0F172A !important;
@@ -184,14 +221,14 @@ label {
     font-size: 15px !important;
 }
 
-/* Texte dans les inputs */
+/* =========================
+NUMBER INPUTS
+========================= */
 
 .stNumberInput input {
     color: white !important;
     font-weight: 700 !important;
 }
-
-/* Background des inputs */
 
 .stNumberInput div[data-baseweb="input"] {
     background-color: #111827 !important;
@@ -199,10 +236,17 @@ label {
     border: 1px solid #334155 !important;
 }
 
-/* Boutons + et - */
-
 .stNumberInput button {
     color: white !important;
+}
+
+/* =========================
+PLOTS
+========================= */
+
+.js-plotly-plot {
+    border-radius: 18px;
+    overflow: hidden;
 }
 
 </style>
